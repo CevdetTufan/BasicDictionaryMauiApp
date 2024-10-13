@@ -102,6 +102,7 @@ namespace BasicDictionaryMauiApp.ViewModels
 			{
 				var newWord = new WordModel
 				{
+					Id = Guid.NewGuid(),
 					Name = Name,
 					Meaning = Meaning,
 					Definition = Definition
@@ -112,9 +113,11 @@ namespace BasicDictionaryMauiApp.ViewModels
 				Name = string.Empty;
 				Meaning = string.Empty;
 				Definition = string.Empty;
+
+				ErrorMessage = string.Empty;
 				IsSuccess = true;
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
 				//todo : log error
 				ErrorMessage = "Hata Meydana Geldi.";

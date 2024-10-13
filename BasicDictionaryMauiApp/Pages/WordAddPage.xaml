@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<FlyoutPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BasicDictionaryMauiApp.Pages.WordAddPage"
+             Title="Word Add" 
+            FlyoutLayoutBehavior="Popover">
+
+    <FlyoutPage.Flyout>
+        <ContentPage Title="Menu" BackgroundColor="WhiteSmoke">
+            <VerticalStackLayout>
+                <Label Text="Menu" HorizontalTextAlignment="Center" Margin="20"></Label>
+            </VerticalStackLayout>
+            
+        </ContentPage>
+
+    </FlyoutPage.Flyout>
+
+    <FlyoutPage.Detail>
+        <NavigationPage>
+            <x:Arguments>
+                <ContentPage BackgroundColor="White">
+                    <AbsoluteLayout>
+
+                        <VerticalStackLayout AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0, 0, 1, 1">
+                            
+                            <Label Text="{Binding ErrorMessage}" TextColor="Red" IsVisible="{Binding !IsSuccess}" Margin="20" VerticalOptions="Center" />
+                            
+                            <Label Text="Add Word" HorizontalTextAlignment="Center" Margin="20" />
+                            <Entry Text="{Binding Name}" Placeholder="Enter Word" Margin="20" />
+                            <Entry Text="{Binding Meaning}" Placeholder="Enter Meaning" Margin="20" />
+                            <Entry Text="{Binding Definition}" Placeholder="Definition" Margin="20" />
+                            <Button Text="Add" Command="{Binding AddWordCommand}" Margin="20" />
+                        </VerticalStackLayout>
+              
+                    </AbsoluteLayout>
+                </ContentPage>
+            </x:Arguments>
+        </NavigationPage>
+    </FlyoutPage.Detail>
+
+</FlyoutPage>

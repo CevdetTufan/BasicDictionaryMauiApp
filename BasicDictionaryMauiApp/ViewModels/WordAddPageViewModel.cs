@@ -17,7 +17,7 @@ namespace BasicDictionaryMauiApp.ViewModels
 		public string Name
 		{
 			get => _name;
-			set,
+			set
 			{
 				if (_name != value)
 				{

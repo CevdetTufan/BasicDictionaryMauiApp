@@ -8,13 +8,21 @@ namespace BasicDictionaryMauiApp.Services
 	public class WordServiceJson : IWordService
 	{
 		private readonly string _jsonFileName;
-
 		private readonly JsonSerializerOptions _jsonOptions;
 
-		public WordServiceJson(string jsonFileName)
+        public WordServiceJson()
+        {
+			_jsonFileName = Path.Combine(FileSystem.AppDataDirectory, "words.json");
+			_jsonOptions = new JsonSerializerOptions
+			{
+				WriteIndented = false,
+				Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+			};
+		}
+
+        public WordServiceJson(string jsonFileName)
 		{
 			_jsonFileName = jsonFileName;
-
 			_jsonOptions = new JsonSerializerOptions
 			{
 				WriteIndented = false,
@@ -42,7 +50,52 @@ namespace BasicDictionaryMauiApp.Services
 			return word;
 		}
 
+		public async Task<PagedResult<WordPagedItemModel>> GetPagedWordsAsync(int currentPage, int pageSize)
+		{
+			if (currentPage < 1)
+			{
+				throw new ArgumentOutOfRangeException(nameof(currentPage), "Current page must be greater than 0.");
+			}
+
+			if (pageSize < 1)
+			{
+				throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size must be greater than 0.");
+			}
+
+			var words = await GetWordsAsync<WordPagedItemModel>();
+
+			var totalItems = words.Count();
+			var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+			if (currentPage > totalPages)
+			{
+				return new PagedResult<WordPagedItemModel>
+				{
+					Items = [],
+					TotalPages = totalPages
+				};
+			}
+
+			var pagedWords = words
+				.Skip((currentPage - 1) * pageSize)
+				.Take(pageSize);
+
+			return new PagedResult<WordPagedItemModel>
+			{
+				Items = pagedWords,
+				TotalPages = totalPages
+			};
+		}
+
 		public async Task<IEnumerable<WordModel>> GetWordsAsync()
+		{
+			return await GetWordsAsync<WordModel>();
+		}
+
+
+		#region Helper
+
+		private async Task<IEnumerable<T>> GetWordsAsync<T>()
 		{
 			if (!File.Exists(_jsonFileName))
 			{
@@ -50,9 +103,10 @@ namespace BasicDictionaryMauiApp.Services
 			}
 
 			using var stream = File.OpenRead(_jsonFileName);
-			var words = await JsonSerializer.DeserializeAsync<List<WordModel>>(stream, _jsonOptions);
+			var words = await JsonSerializer.DeserializeAsync<List<T>>(stream, _jsonOptions);
 			return words ?? [];
-		}
+		} 
+		#endregion
 	}
 }
 

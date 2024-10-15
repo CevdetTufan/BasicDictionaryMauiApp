@@ -2,7 +2,7 @@
 
 namespace BasicDictionaryMauiApp.Services
 {
-	public interface IWordService
+	public interface IWordService : IPagitableList<WordPagedItemModel>
 	{
 		Task<IEnumerable<WordModel>> GetWordsAsync();
 		Task<WordModel> AddWordAsync(WordModel word);

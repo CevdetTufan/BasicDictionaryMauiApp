@@ -22,8 +22,8 @@
                     <AbsoluteLayout>
 
                         <VerticalStackLayout AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0, 0, 1, 1">
-                            
-                            <Label Text="{Binding ErrorMessage}" TextColor="Red" IsVisible="{Binding !IsSuccess}" Margin="20" VerticalOptions="Center" />
+
+                            <Label Text="{Binding Message.Message}" TextColor="Red" IsVisible="{Binding !Message.IsSuccess}" Margin="20" VerticalOptions="Center" />
                             
                             <Label Text="Add Word" HorizontalTextAlignment="Center" Margin="20" />
                             <Entry Text="{Binding Name}" Placeholder="Enter Word" Margin="20" />

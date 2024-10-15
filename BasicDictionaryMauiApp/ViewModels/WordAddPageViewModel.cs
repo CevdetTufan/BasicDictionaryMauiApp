@@ -12,14 +12,12 @@ namespace BasicDictionaryMauiApp.ViewModels
 		private string _name = string.Empty;
 		private string _meaning = string.Empty;
 		private string _definition = string.Empty;
-
-		private string _errorMessage = string.Empty;
-		private bool _isSuccess = false;
+		private MessageModel _message;
 
 		public string Name
 		{
 			get => _name;
-			set
+			set,
 			{
 				if (_name != value)
 				{
@@ -55,34 +53,21 @@ namespace BasicDictionaryMauiApp.ViewModels
 			}
 		}
 
-		public string ErrorMessage
+		public MessageModel Message
 		{
-			get => _errorMessage;
+			get => _message;
 			set
 			{
-				if (_errorMessage != value)
+				if (_message != value)
 				{
-					_errorMessage = value;
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ErrorMessage)));
-				}
-			}
-		}
-
-		public bool IsSuccess
-		{
-			get => _isSuccess;
-			set
-			{
-				if (_isSuccess != value)
-				{
-					_isSuccess = value;
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSuccess)));
+					_message = value;
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Message)));
 				}
 			}
 		}
 
 		public event PropertyChangedEventHandler? PropertyChanged;
-		
+
 		protected virtual void OnPropertyChanged(string propertyName)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -90,8 +75,8 @@ namespace BasicDictionaryMauiApp.ViewModels
 
 		public ICommand AddWordCommand { get; }
 
-        public WordAddPageViewModel(IWordService wordService)
-        {
+		public WordAddPageViewModel(IWordService wordService)
+		{
 			AddWordCommand = new Command(AddWordItem);
 			_wordService = wordService;
 		}
@@ -114,14 +99,21 @@ namespace BasicDictionaryMauiApp.ViewModels
 				Meaning = string.Empty;
 				Definition = string.Empty;
 
-				ErrorMessage = string.Empty;
-				IsSuccess = true;
+				Message = new MessageModel
+				{
+					IsSuccess = true
+				};
 			}
 			catch (Exception ex)
 			{
 				//todo : log error
-				ErrorMessage = "Hata Meydana Geldi.";
+
+				Message = new MessageModel
+				{
+					IsSuccess = false,
+					Message = "An error occurred."
+				};
 			}
 		}
-    }
+	}
 }

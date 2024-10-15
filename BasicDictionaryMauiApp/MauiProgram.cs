@@ -24,11 +24,7 @@ namespace BasicDictionaryMauiApp
 
 			builder.Services.AddSingleton<WordAddPage>();
 			builder.Services.AddSingleton<WordAddPageViewModel>();
-			builder.Services.AddSingleton<IWordService, WordServiceJson>(sp =>
-			{
-				var jsonFileName = Path.Combine(FileSystem.AppDataDirectory, "words.json");
-				return new WordServiceJson(jsonFileName);
-			});
+			builder.Services.AddSingleton<IWordService, WordServiceJson>();
 
 			return builder.Build();
 		}

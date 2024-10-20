@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="BasicDictionaryMauiApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:BasicDictionaryMauiApp"
+    Shell.FlyoutBehavior="Flyout">
+
+    <ShellContent
+        Title="Home"
+        Icon="home.png"
+        FlyoutIcon="{AppThemeBinding Light=home.png, Dark=home_dark.png}"
+        ContentTemplate="{DataTemplate local:Pages.MainPage}"/>
+         
+
+    <ShellContent
+        Title="Word Add"
+        Icon="book.png"
+        FlyoutIcon="{AppThemeBinding Light=book_dark.png, Dark=book_dark.png}"
+        ContentTemplate="{DataTemplate local:Pages.WordAddPage}" />
+
+    <ShellContent
+       Title="Word List"
+       Icon="dictionary_dark.png"
+       FlyoutIcon="{AppThemeBinding Light=dictionary_dark.png, Dark=dictionary_dark.png}"
+       ContentTemplate="{DataTemplate local:Pages.WordListPage}" />
+
+</Shell>

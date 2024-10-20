@@ -1,14 +1,11 @@
-﻿using BasicDictionaryMauiApp.Pages;
-
-namespace BasicDictionaryMauiApp
+﻿namespace BasicDictionaryMauiApp
 {
 	public partial class App : Application
 	{
-		public App(WordAddPage page)
+		public App()
 		{
 			InitializeComponent();
-
-			MainPage = page;
+			MainPage = new AppShell();
 		}
 	}
 }

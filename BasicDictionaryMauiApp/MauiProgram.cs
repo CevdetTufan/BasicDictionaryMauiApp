@@ -21,10 +21,16 @@ namespace BasicDictionaryMauiApp
 #if DEBUG
 			builder.Logging.AddDebug();
 #endif
+			builder.Services.AddSingleton<IServiceProvider, ServiceProvider>();
 
-			builder.Services.AddSingleton<WordAddPage>();
 			builder.Services.AddSingleton<WordAddPageViewModel>();
+			builder.Services.AddSingleton<WordAddPage>();
+
+			builder.Services.AddSingleton<WordListViewModel>();
+			builder.Services.AddSingleton<WordListPage>();
+			
 			builder.Services.AddSingleton<IWordService, WordServiceJson>();
+			
 
 			return builder.Build();
 		}

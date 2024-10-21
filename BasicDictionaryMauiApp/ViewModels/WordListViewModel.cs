@@ -51,7 +51,7 @@ namespace BasicDictionaryMauiApp.ViewModels
 		public ObservableCollection<WordPagedItemModel> Words { get; set; } = [];
 
 
-		public event PropertyChangedEventHandler? PropertyChanged;
+		public event PropertyChangedEventHandler PropertyChanged;
 		protected virtual void OnPropertyChanged(string propertyName)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -12,6 +12,7 @@ namespace BasicDictionaryMauiApp.ViewModels
 
 		private const int PageSize = 10;
 		private int _currentPage = 1;
+		private bool _isLoading;
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -28,6 +29,19 @@ namespace BasicDictionaryMauiApp.ViewModels
 			}
 		}
 
+		public bool IsLoading
+		{
+			get => _isLoading;
+			set
+			{
+				if (_isLoading != value)
+				{
+					_isLoading = value;
+					OnPropertyChanged(nameof(IsLoading));
+				}
+			}
+		}
+
 		public ObservableCollection<WordPagedItemModel> Words { get; set; } = [];
 
 		public ICommand LoadMoreCommand { get; }
@@ -40,20 +54,21 @@ namespace BasicDictionaryMauiApp.ViewModels
 		public WordListViewModel(IWordService wordService)
 		{
 			_wordService = wordService;
-			LoadMoreCommand = new Command(LoadMoreWords);
-			LoadMoreWords();
+			LoadMoreCommand = new Command(async () => await LoadMoreWordsAsync());
+			LoadMoreCommand.Execute(this);
 		}
 
-		private async void LoadMoreWords()
+		public async Task LoadMoreWordsAsync()
 		{
+			IsLoading = true;
 			var pagedList = await _wordService.GetPagedWordsAsync(CurrentPage, PageSize);
-			Words.Clear();
 			foreach (var word in pagedList.Items)
 			{
 				Words.Add(word);
 			}
-
+			
 			CurrentPage++;
+			IsLoading = false;
 		}
 	}
 }

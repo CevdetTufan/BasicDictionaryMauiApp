@@ -3,11 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BasicDictionaryMauiApp.Pages.WordListPage"
              Title="WordListPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="List"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
-   
+  
+        <RefreshView IsEnabled="False"
+            Command="{Binding LoadMoreCommand}"
+            IsRefreshing="{Binding IsLoading}">            
+            <CollectionView
+                ItemsSource="{Binding Words}"
+                VerticalOptions="FillAndExpand"
+                RemainingItemsThreshold="1">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="1"
+                                Text="{Binding Name}"
+                                FontAttributes="Bold" />
+
+                            <Label Grid.Row="1"
+                                Grid.Column="1"
+                                Text="{Binding Meaning}"
+                                FontAttributes="Italic"
+                                VerticalOptions="End" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+  
 </ContentPage>

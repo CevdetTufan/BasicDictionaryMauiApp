@@ -5,15 +5,12 @@ using System.Text.Unicode;
 
 namespace BasicDictionaryMauiApp.Services
 {
-	public class WordServiceJson : IWordService
+	public class WordServiceJson : JsonBaseClass, IWordService
 	{
-		private readonly string _jsonFileName;
-		private readonly JsonSerializerOptions _jsonOptions;
-
 		public WordServiceJson()
 		{
-			_jsonFileName = Path.Combine(FileSystem.AppDataDirectory, "words.json");
-			_jsonOptions = new JsonSerializerOptions
+			JsonFileName = Path.Combine(FileSystem.AppDataDirectory, "words.json");
+			JsonOptions = new JsonSerializerOptions
 			{
 				WriteIndented = false,
 				Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
@@ -22,8 +19,8 @@ namespace BasicDictionaryMauiApp.Services
 
 		public WordServiceJson(string jsonFileName)
 		{
-			_jsonFileName = jsonFileName;
-			_jsonOptions = new JsonSerializerOptions
+			JsonFileName = jsonFileName;
+			JsonOptions = new JsonSerializerOptions
 			{
 				WriteIndented = false,
 				Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
@@ -59,7 +56,7 @@ namespace BasicDictionaryMauiApp.Services
 				throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size must be greater than 0.");
 			}
 
-			var words = await GetWordsAsync<WordPagedItemModel>();
+			var words = await GetWordsFromJsonAsync<WordPagedItemModel>();
 
 			var totalItems = words.Count();
 			var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
@@ -86,7 +83,7 @@ namespace BasicDictionaryMauiApp.Services
 
 		public async Task<IEnumerable<WordModel>> GetWordsAsync()
 		{
-			return await GetWordsAsync<WordModel>();
+			return await GetWordsFromJsonAsync<WordModel>();
 		}
 
 		public async Task<WordModel> RemoveWordAsync(Guid id)
@@ -101,30 +98,6 @@ namespace BasicDictionaryMauiApp.Services
 
 			return word;
 		}
-
-
-		#region Helper
-
-		private async Task<IEnumerable<T>> GetWordsAsync<T>()
-		{
-			if (!File.Exists(_jsonFileName))
-			{
-				return [];
-			}
-
-			using var stream = File.OpenRead(_jsonFileName);
-			var words = await JsonSerializer.DeserializeAsync<List<T>>(stream, _jsonOptions);
-			return words ?? [];
-		}
-
-		private async Task SaveToJsonFile(List<WordModel> wordList)
-		{
-			using (var stream = File.Create(_jsonFileName))
-			{
-				await JsonSerializer.SerializeAsync(stream, wordList, _jsonOptions);
-			}
-		}
-		#endregion
 	}
 }
 

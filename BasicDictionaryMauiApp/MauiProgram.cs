@@ -28,9 +28,10 @@ namespace BasicDictionaryMauiApp
 
 			builder.Services.AddSingleton<WordListViewModel>();
 			builder.Services.AddSingleton<WordListPage>();
-			
+
 			builder.Services.AddSingleton<IWordService, WordServiceJson>();
-			
+			builder.Services.AddSingleton<IDeletedWordLogger, DeletedWordLoggerJson>();
+
 
 			return builder.Build();
 		}

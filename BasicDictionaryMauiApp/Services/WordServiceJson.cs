@@ -10,8 +10,8 @@ namespace BasicDictionaryMauiApp.Services
 		private readonly string _jsonFileName;
 		private readonly JsonSerializerOptions _jsonOptions;
 
-        public WordServiceJson()
-        {
+		public WordServiceJson()
+		{
 			_jsonFileName = Path.Combine(FileSystem.AppDataDirectory, "words.json");
 			_jsonOptions = new JsonSerializerOptions
 			{
@@ -20,7 +20,7 @@ namespace BasicDictionaryMauiApp.Services
 			};
 		}
 
-        public WordServiceJson(string jsonFileName)
+		public WordServiceJson(string jsonFileName)
 		{
 			_jsonFileName = jsonFileName;
 			_jsonOptions = new JsonSerializerOptions
@@ -42,10 +42,7 @@ namespace BasicDictionaryMauiApp.Services
 
 			wordList.Add(word);
 
-			using (var stream = File.Create(_jsonFileName))
-			{
-				await JsonSerializer.SerializeAsync(stream, wordList, _jsonOptions);
-			}
+			await SaveToJsonFile(wordList);
 
 			return word;
 		}
@@ -92,6 +89,19 @@ namespace BasicDictionaryMauiApp.Services
 			return await GetWordsAsync<WordModel>();
 		}
 
+		public async Task<WordModel> RemoveWordAsync(Guid id)
+		{
+			var words = await GetWordsAsync();
+			var word = words.FirstOrDefault(q => q.Id == id);
+			if (word != null)
+			{
+				var wordList = words.Where(q => q.Id != id).ToList();
+				await SaveToJsonFile(wordList);
+			}
+
+			return word;
+		}
+
 
 		#region Helper
 
@@ -105,7 +115,15 @@ namespace BasicDictionaryMauiApp.Services
 			using var stream = File.OpenRead(_jsonFileName);
 			var words = await JsonSerializer.DeserializeAsync<List<T>>(stream, _jsonOptions);
 			return words ?? [];
-		} 
+		}
+
+		private async Task SaveToJsonFile(List<WordModel> wordList)
+		{
+			using (var stream = File.Create(_jsonFileName))
+			{
+				await JsonSerializer.SerializeAsync(stream, wordList, _jsonOptions);
+			}
+		}
 		#endregion
 	}
 }

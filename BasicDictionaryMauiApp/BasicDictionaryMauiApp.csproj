@@ -58,6 +58,7 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\book_dark.png" />
+	  <None Remove="Resources\Images\delete.png" />
 	  <None Remove="Resources\Images\dictionary_dark.png" />
 	  <None Remove="Resources\Images\dictionary_light.png" />
 	  <None Remove="Resources\Images\home.png" />

@@ -3,16 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BasicDictionaryMauiApp.Pages.WordListPage"
              Title="WordListPage">
-  
-        <RefreshView IsEnabled="False"
+
+    <RefreshView IsEnabled="False"
             Command="{Binding LoadMoreCommand}"
-            IsRefreshing="{Binding IsLoading}">            
-            <CollectionView
+            IsRefreshing="{Binding IsLoading}">
+        <CollectionView
+                x:Name="collectionView"
                 ItemsSource="{Binding Words}"
                 VerticalOptions="FillAndExpand"
                 RemainingItemsThreshold="1">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
                         <Grid Padding="10">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -33,9 +35,19 @@
                                 FontAttributes="Italic"
                                 VerticalOptions="End" />
                         </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </RefreshView>
-  
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete" 
+                                           IconImageSource="delete.png"
+                                           BackgroundColor="LightPink"
+                                           Command="{Binding Source={x:Reference collectionView}, Path=BindingContext.RemoveWordCommand}"
+                                           CommandParameter="{Binding}"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+
 </ContentPage>

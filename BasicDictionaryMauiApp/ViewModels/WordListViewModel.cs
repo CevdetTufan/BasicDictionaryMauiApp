@@ -14,7 +14,13 @@ namespace BasicDictionaryMauiApp.ViewModels
 		private int _currentPage = 1;
 		private bool _isLoading;
 
-		public event PropertyChangedEventHandler? PropertyChanged;
+		public WordListViewModel(IWordService wordService)
+		{
+			_wordService = wordService;
+			LoadMoreCommand = new Command(async () => await LoadMoreWordsAsync());
+			RemoveWordCommand = new Command<WordPagedItemModel>(async (word) => await RemoveWordAsync(word));
+			LoadMoreCommand.Execute(this);
+		}
 
 		public int CurrentPage
 		{
@@ -44,20 +50,14 @@ namespace BasicDictionaryMauiApp.ViewModels
 
 		public ObservableCollection<WordPagedItemModel> Words { get; set; } = [];
 
-		public ICommand LoadMoreCommand { get; }
 
+		public event PropertyChangedEventHandler? PropertyChanged;
 		protected virtual void OnPropertyChanged(string propertyName)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		public WordListViewModel(IWordService wordService)
-		{
-			_wordService = wordService;
-			LoadMoreCommand = new Command(async () => await LoadMoreWordsAsync());
-			LoadMoreCommand.Execute(this);
-		}
-
+		public ICommand LoadMoreCommand { get; }
 		public async Task LoadMoreWordsAsync()
 		{
 			IsLoading = true;
@@ -66,9 +66,20 @@ namespace BasicDictionaryMauiApp.ViewModels
 			{
 				Words.Add(word);
 			}
-			
+
 			CurrentPage++;
 			IsLoading = false;
+		}
+
+		public ICommand RemoveWordCommand { get; }
+
+		public async Task RemoveWordAsync(WordPagedItemModel word)
+		{
+			var deletedWord = await _wordService.RemoveWordAsync(word.Id);
+			if (deletedWord != null)
+			{
+				Words.Remove(word);
+			}
 		}
 	}
 }

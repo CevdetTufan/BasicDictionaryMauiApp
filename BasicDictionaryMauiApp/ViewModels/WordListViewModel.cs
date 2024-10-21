@@ -9,7 +9,7 @@ namespace BasicDictionaryMauiApp.ViewModels
 	public class WordListViewModel : INotifyPropertyChanged
 	{
 		private readonly IWordService _wordService;
-		protected readonly IDeletedWordLogger _deletedWordLogger;
+		private readonly IDeletedWordLogger _deletedWordLogger;
 
 		private const int PageSize = 10;
 		private int _currentPage = 1;

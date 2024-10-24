@@ -90,7 +90,8 @@ namespace BasicDictionaryMauiApp.ViewModels
 					Id = Guid.NewGuid(),
 					Name = Name,
 					Meaning = Meaning,
-					Definition = Definition
+					Definition = Definition,
+					CreatedTime = DateTime.UtcNow
 				};
 
 				await _wordService.AddWordAsync(newWord);

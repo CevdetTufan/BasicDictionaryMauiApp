@@ -28,7 +28,8 @@ namespace BasicDictionaryMauiApp.Services
 				Id = deletedWord.Id,
 				Meaning = deletedWord.Meaning,
 				Name = deletedWord.Name,
-				DeletedTime = DateTime.UtcNow
+				DeletedTime = DateTime.UtcNow,
+				CreatedTime = deletedWord.CreatedTime
 			});
 
 

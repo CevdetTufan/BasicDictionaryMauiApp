@@ -6,6 +6,7 @@ public class WordModel
     public string Name { get; set; }
     public string Meaning { get; set; }
     public string Definition { get; set; }
+    public DateTime? CreatedTime { get; set; }
 }
 
 public class DeletedWordModel : WordModel

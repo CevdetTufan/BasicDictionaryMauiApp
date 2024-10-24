@@ -14,6 +14,8 @@ namespace BasicDictionaryMauiApp.ViewModels
 		private const int PageSize = 10;
 		private int _currentPage = 1;
 		private bool _isLoading;
+		private int _totalItems;
+		private int _showingItems;
 
 		public WordListViewModel(IWordService wordService, IDeletedWordLogger deletedWordLogger)
 		{
@@ -21,7 +23,7 @@ namespace BasicDictionaryMauiApp.ViewModels
 			_deletedWordLogger = deletedWordLogger;
 			LoadMoreCommand = new Command(async () => await LoadMoreWordsAsync());
 			RemoveWordCommand = new Command<WordPagedItemModel>(async (word) => await RemoveWordAsync(word));
-			LoadMoreCommand.Execute(this);
+			SearchWordsCommand = new Command<string>(async (name) => await SearchWords(name));
 		}
 
 		public int CurrentPage
@@ -50,8 +52,33 @@ namespace BasicDictionaryMauiApp.ViewModels
 			}
 		}
 
-		public ObservableCollection<WordPagedItemModel> Words { get; set; } = [];
+		public int TotalItems
+		{
+			get => _totalItems;
+			set
+			{
+				if (_totalItems != value)
+				{
+					_totalItems = value;
+					OnPropertyChanged(nameof(TotalItems));	
+				}
+			}
+		}
 
+		public int ShowingItems
+		{
+			get=> _showingItems;
+			set
+			{
+				if(_showingItems != value)
+				{
+					_showingItems = value;
+					OnPropertyChanged(nameof(ShowingItems));
+				}
+			}
+		}
+
+		public ObservableCollection<WordPagedItemModel> Words { get; set; } = [];
 
 		public event PropertyChangedEventHandler PropertyChanged;
 		protected virtual void OnPropertyChanged(string propertyName)
@@ -63,6 +90,10 @@ namespace BasicDictionaryMauiApp.ViewModels
 		public async Task LoadMoreWordsAsync()
 		{
 			IsLoading = true;
+
+			if (CurrentPage == 1)
+				Words.Clear();
+
 			var pagedList = await _wordService.GetPagedWordsAsync(CurrentPage, PageSize);
 			foreach (var word in pagedList.Items)
 			{
@@ -70,6 +101,9 @@ namespace BasicDictionaryMauiApp.ViewModels
 			}
 
 			CurrentPage++;
+
+			TotalItems = pagedList.TotalItems;
+			ShowingItems = Words.Count;
 			IsLoading = false;
 		}
 
@@ -82,7 +116,32 @@ namespace BasicDictionaryMauiApp.ViewModels
 			{
 				await _deletedWordLogger.LogDeletedWordAsync(deletedWord);
 				Words.Remove(word);
+				TotalItems--;
+				ShowingItems= Words.Count;
 			}
+		}
+
+		public ICommand SearchWordsCommand { get; }
+
+		public async Task SearchWords(string name)
+		{
+			ClearProperties();
+			var foundWords = await _wordService.SearchWords(name);
+			foreach (var word in foundWords.Items)
+			{
+				Words.Add(word);
+			}
+
+			TotalItems= foundWords.TotalItems;
+			ShowingItems = Words.Count;
+		}
+
+		public void ClearProperties()
+		{
+			Words.Clear();
+			CurrentPage = 1;
+			TotalItems = 0;
+			ShowingItems= 0;
 		}
 	}
 }

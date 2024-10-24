@@ -21,7 +21,6 @@ namespace BasicDictionaryMauiApp
 #if DEBUG
 			builder.Logging.AddDebug();
 #endif
-			builder.Services.AddSingleton<IServiceProvider, ServiceProvider>();
 
 			builder.Services.AddSingleton<WordAddPageViewModel>();
 			builder.Services.AddSingleton<WordAddPage>();

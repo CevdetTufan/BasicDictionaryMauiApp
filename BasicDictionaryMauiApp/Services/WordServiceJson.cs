@@ -66,7 +66,7 @@ namespace BasicDictionaryMauiApp.Services
 				return new PagedResult<WordPagedItemModel>
 				{
 					Items = [],
-					TotalPages = totalPages
+					TotalItems = totalItems
 				};
 			}
 
@@ -77,7 +77,7 @@ namespace BasicDictionaryMauiApp.Services
 			return new PagedResult<WordPagedItemModel>
 			{
 				Items = pagedWords,
-				TotalPages = totalPages
+				TotalItems = totalItems
 			};
 		}
 
@@ -97,6 +97,20 @@ namespace BasicDictionaryMauiApp.Services
 			}
 
 			return word;
+		}
+
+		public async Task<PagedResult<WordPagedItemModel>> SearchWords(string name)
+		{
+			var words = await GetWordsFromJsonAsync<WordPagedItemModel>();
+			var foundWords = words
+				.Where(q => q.Name.Contains(name, StringComparison.OrdinalIgnoreCase))
+				.ToList();
+
+			return new PagedResult<WordPagedItemModel>
+			{
+				Items = foundWords,
+				TotalItems = words.Count()
+			};
 		}
 	}
 }

@@ -1,53 +1,67 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BasicDictionaryMauiApp.Pages.WordListPage"
-             Title="WordListPage">
+             x:Class="BasicDictionaryMauiApp.Pages.WordListPage" Padding="10">
 
-    <RefreshView IsEnabled="False"
+    <StackLayout Padding="10">
+        <StackLayout>
+            <Entry x:Name="txtSearch" Placeholder="Search"  TextChanged="txtSearch_TextChanged" ></Entry>
+            <Label FontSize="Micro" FontAttributes="Italic">
+                <Label.Text>
+                    <MultiBinding StringFormat="Total {0} items showing in {1} records.">
+                        <Binding Path="ShowingItems" />
+                        <Binding Path="TotalItems" />
+                    </MultiBinding>
+                </Label.Text>
+            </Label>
+        </StackLayout>
+        <RefreshView IsEnabled="False"
             Command="{Binding LoadMoreCommand}"
             IsRefreshing="{Binding IsLoading}">
-        <CollectionView
+            <CollectionView
                 x:Name="collectionView"
                 ItemsSource="{Binding Words}"
-                VerticalOptions="FillAndExpand"
-                RemainingItemsThreshold="1">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <SwipeView>
-                        <Grid Padding="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                VerticalOptions="Fill" HorizontalOptions="Fill"
+                RemainingItemsThreshold="1" Margin="0">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <StackLayout>
+                                <Grid  HorizontalOptions="FillAndExpand" Margin="0,1,0,0" Background="WhiteSmoke">
+                                    <Grid.RowDefinitions >
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                            <Label Grid.Column="1"
-                                Text="{Binding Name}"
-                                FontAttributes="Bold" />
+                                    <Label Grid.Column="1"
+                                            Text="{Binding Name}"
+                                            FontAttributes="Bold"
+                                            Margin="0,0,0,10"/>
 
-                            <Label Grid.Row="1"
-                                Grid.Column="1"
-                                Text="{Binding Meaning}"
-                                FontAttributes="Italic"
-                                VerticalOptions="End" />
-                        </Grid>
-                        <SwipeView.RightItems>
-                            <SwipeItems>
-                                <SwipeItem Text="Delete" 
+                                    <Label Grid.Row="1"
+                                            Grid.Column="1"
+                                            Text="{Binding Meaning}"
+                                            FontAttributes="Italic"
+                                            VerticalOptions="End" />
+                                </Grid>
+                            </StackLayout>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Delete" 
                                            IconImageSource="delete.png"
                                            BackgroundColor="LightPink"
-                                           Command="{Binding Source={x:Reference collectionView}, Path=BindingContext.RemoveWordCommand}"
+                                           Command="{Binding Source={x:Reference collectionView},       Path=BindingContext.RemoveWordCommand}"
                                            CommandParameter="{Binding}"/>
-                            </SwipeItems>
-                        </SwipeView.RightItems>
-                    </SwipeView>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </RefreshView>
-
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
 </ContentPage>

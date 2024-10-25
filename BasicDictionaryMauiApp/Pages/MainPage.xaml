@@ -45,16 +45,18 @@
                 </StackLayout>
             </StackLayout>
         </Frame>
-        <Button 
+        <StackLayout>
+            <Button 
             x:Name="btnSlide" 
             Clicked="btnSlide_Clicked" 
             Margin="5,5,5,5">
-            <Button.Text>
-                <MultiBinding StringFormat="Next ({0}/{1})">
-                    <Binding Path="NextButtonClickCount" />
-                    <Binding Path="QueueCount" />
-                </MultiBinding>
-            </Button.Text>
-        </Button>
+                <Button.Text>
+                    <MultiBinding StringFormat="Next ({0}/{1})">
+                        <Binding Path="NextButtonClickCount" />
+                        <Binding Path="QueueCount" />
+                    </MultiBinding>
+                </Button.Text>
+            </Button>
+        </StackLayout>
     </VerticalStackLayout>
 </ContentPage>

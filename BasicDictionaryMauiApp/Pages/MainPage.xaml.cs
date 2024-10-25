@@ -10,6 +10,7 @@ public partial class MainPage : ContentPage
 		InitializeComponent();
 		_viewModel = viewModel;
 		BindingContext = _viewModel;
+
 	}
 
 	private async Task SlideFrame()
@@ -20,10 +21,10 @@ public partial class MainPage : ContentPage
 		//right
 		await SlidingFrame.TranslateTo(offScreenPositionRight, 0, 500, Easing.SpringOut);
 
-		await Task.Delay(100);
+		await Task.Delay(50);
 
 		//dequee item
-		_viewModel.DequeeCommand.Execute(true);
+		ExecuteDequeeCommand();
 
 		//left
 		SlidingFrame.TranslationX = offScreenPositionLeft;
@@ -33,5 +34,10 @@ public partial class MainPage : ContentPage
 	private async void btnSlide_Clicked(object sender, EventArgs e)
 	{
 		await SlideFrame();
+	}
+
+	private void ExecuteDequeeCommand()
+	{
+		_viewModel.DequeeCommand.Execute(true);
 	}
 }

@@ -7,5 +7,7 @@ namespace BasicDictionaryMauiApp.Services
 		Task<IEnumerable<WordModel>> GetWordsAsync();
 		Task<WordModel> AddWordAsync(WordModel word);
 		Task<WordModel> RemoveWordAsync(Guid id);	
+
+		Task<int> CountWordsAsync();
 	}
 }

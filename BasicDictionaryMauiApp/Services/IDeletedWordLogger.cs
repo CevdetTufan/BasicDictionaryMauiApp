@@ -1,8 +1,8 @@
-﻿using BasicDictionaryMauiApp.Models;
+﻿using BasicDictionaryMauiApp.Models.Entities;
 
 namespace BasicDictionaryMauiApp.Services
 {
-	public interface IDeletedWordLogger
+    public interface IDeletedWordLogger
     {
 		Task LogDeletedWordAsync(WordModel deletedWord);
 	}

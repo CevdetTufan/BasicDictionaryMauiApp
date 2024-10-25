@@ -1,11 +1,12 @@
-﻿using BasicDictionaryMauiApp.Models;
+﻿using BasicDictionaryMauiApp.Models.Dtos;
+using BasicDictionaryMauiApp.Models.Entities;
 using BasicDictionaryMauiApp.Services;
 using System.ComponentModel;
 using System.Windows.Input;
 
 namespace BasicDictionaryMauiApp.ViewModels
 {
-	public class WordAddPageViewModel : INotifyPropertyChanged
+    public class WordAddPageViewModel : INotifyPropertyChanged
 	{
 		private readonly IWordService _wordService;
 

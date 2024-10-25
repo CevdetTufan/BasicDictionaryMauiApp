@@ -1,11 +1,11 @@
-﻿using BasicDictionaryMauiApp.Models;
+﻿using BasicDictionaryMauiApp.Models.Entities;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 
 namespace BasicDictionaryMauiApp.Services
 {
-	public class DeletedWordLoggerJson : JsonBaseClass, IDeletedWordLogger
+    public class DeletedWordLoggerJson : JsonBaseClass, IDeletedWordLogger
 	{
 		public DeletedWordLoggerJson()
 		{
@@ -31,7 +31,6 @@ namespace BasicDictionaryMauiApp.Services
 				DeletedTime = DateTime.UtcNow,
 				CreatedTime = deletedWord.CreatedTime
 			});
-
 
 			await SaveToJsonFile(words);
 		}

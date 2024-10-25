@@ -1,8 +1,9 @@
-﻿using BasicDictionaryMauiApp.Models;
+﻿using BasicDictionaryMauiApp.Models.Dtos;
+using BasicDictionaryMauiApp.Models.Entities;
 
 namespace BasicDictionaryMauiApp.Services
 {
-	public interface IWordService : IPagitableList<WordPagedItemModel>
+    public interface IWordService : IPagitableList<WordPagedItemModel>
 	{
 		Task<IEnumerable<WordModel>> GetWordsAsync();
 		Task<WordModel> AddWordAsync(WordModel word);

@@ -1,4 +1,4 @@
-﻿using BasicDictionaryMauiApp.Models;
+﻿using BasicDictionaryMauiApp.Models.Dtos;
 using BasicDictionaryMauiApp.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace BasicDictionaryMauiApp.ViewModels
 {
-	public class WordListViewModel : INotifyPropertyChanged
+    public class WordListViewModel : INotifyPropertyChanged
 	{
 		private readonly IWordService _wordService;
 		private readonly IDeletedWordLogger _deletedWordLogger;

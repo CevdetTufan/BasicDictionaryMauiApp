@@ -1,11 +1,12 @@
-﻿using BasicDictionaryMauiApp.Models;
+﻿using BasicDictionaryMauiApp.Models.Dtos;
+using BasicDictionaryMauiApp.Models.Entities;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 
 namespace BasicDictionaryMauiApp.Services
 {
-	public class WordServiceJson : JsonBaseClass, IWordService
+    public class WordServiceJson : JsonBaseClass, IWordService
 	{
 		public WordServiceJson()
 		{
@@ -117,6 +118,11 @@ namespace BasicDictionaryMauiApp.Services
 				Items = foundWords,
 				TotalItems = words.Count()
 			};
+		}
+
+		private void G()
+		{
+
 		}
 	}
 }

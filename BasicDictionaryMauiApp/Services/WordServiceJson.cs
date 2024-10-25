@@ -44,6 +44,12 @@ namespace BasicDictionaryMauiApp.Services
 			return word;
 		}
 
+		public async Task<int> CountWordsAsync()
+		{
+			var words = await GetWordsAsync();
+			return words.Count();
+		}
+
 		public async Task<PagedResult<WordPagedItemModel>> GetPagedWordsAsync(int currentPage, int pageSize)
 		{
 			if (currentPage < 1)

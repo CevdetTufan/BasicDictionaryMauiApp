@@ -24,6 +24,7 @@ namespace BasicDictionaryMauiApp.ViewModels
 			LoadMoreCommand = new Command(async () => await LoadMoreWordsAsync());
 			RemoveWordCommand = new Command<WordPagedItemModel>(async (word) => await RemoveWordAsync(word));
 			SearchWordsCommand = new Command<string>(async (name) => await SearchWords(name));
+			Task.Run(SetTotalItemsInitialCount);
 		}
 
 		public int CurrentPage
@@ -60,17 +61,17 @@ namespace BasicDictionaryMauiApp.ViewModels
 				if (_totalItems != value)
 				{
 					_totalItems = value;
-					OnPropertyChanged(nameof(TotalItems));	
+					OnPropertyChanged(nameof(TotalItems));
 				}
 			}
 		}
 
 		public int ShowingItems
 		{
-			get=> _showingItems;
+			get => _showingItems;
 			set
 			{
-				if(_showingItems != value)
+				if (_showingItems != value)
 				{
 					_showingItems = value;
 					OnPropertyChanged(nameof(ShowingItems));
@@ -117,7 +118,7 @@ namespace BasicDictionaryMauiApp.ViewModels
 				await _deletedWordLogger.LogDeletedWordAsync(deletedWord);
 				Words.Remove(word);
 				TotalItems--;
-				ShowingItems= Words.Count;
+				ShowingItems = Words.Count;
 			}
 		}
 
@@ -132,7 +133,7 @@ namespace BasicDictionaryMauiApp.ViewModels
 				Words.Add(word);
 			}
 
-			TotalItems= foundWords.TotalItems;
+			TotalItems = foundWords.TotalItems;
 			ShowingItems = Words.Count;
 		}
 
@@ -141,7 +142,11 @@ namespace BasicDictionaryMauiApp.ViewModels
 			Words.Clear();
 			CurrentPage = 1;
 			TotalItems = 0;
-			ShowingItems= 0;
+			ShowingItems = 0;
+		}
+		private async Task SetTotalItemsInitialCount()
+		{
+			TotalItems = await _wordService.CountWordsAsync();
 		}
 	}
 }

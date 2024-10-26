@@ -23,7 +23,7 @@ namespace BasicDictionaryMauiApp.ViewModels
 				if (_name != value)
 				{
 					_name = value;
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
+					OnPropertyChanged(nameof(Name));
 				}
 			}
 		}
@@ -36,7 +36,7 @@ namespace BasicDictionaryMauiApp.ViewModels
 				if (_meaning != value)
 				{
 					_meaning = value;
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Meaning)));
+					OnPropertyChanged(nameof(Meaning));
 				}
 			}
 		}
@@ -62,7 +62,7 @@ namespace BasicDictionaryMauiApp.ViewModels
 				if (_message != value)
 				{
 					_message = value;
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Message)));
+					OnPropertyChanged(nameof(Message));
 				}
 			}
 		}

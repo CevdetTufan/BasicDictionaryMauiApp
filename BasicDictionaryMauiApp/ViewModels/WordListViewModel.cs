@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace BasicDictionaryMauiApp.ViewModels
 {
-    public class WordListViewModel : INotifyPropertyChanged
+	public class WordListViewModel : INotifyPropertyChanged
 	{
 		private readonly IWordService _wordService;
 		private readonly IDeletedWordLogger _deletedWordLogger;
@@ -35,7 +35,7 @@ namespace BasicDictionaryMauiApp.ViewModels
 				if (_currentPage != value)
 				{
 					_currentPage = value;
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPage)));
+					OnPropertyChanged(nameof(CurrentPage));
 				}
 			}
 		}
@@ -91,34 +91,50 @@ namespace BasicDictionaryMauiApp.ViewModels
 		public async Task LoadMoreWordsAsync()
 		{
 			IsLoading = true;
-
-			if (CurrentPage == 1)
-				Words.Clear();
-
-			var pagedList = await _wordService.GetPagedWordsAsync(CurrentPage, PageSize);
-			foreach (var word in pagedList.Items)
+			try
 			{
-				Words.Add(word);
+				if (CurrentPage == 1)
+					Words.Clear();
+
+				var pagedList = await _wordService.GetPagedWordsAsync(CurrentPage, PageSize);
+				foreach (var word in pagedList.Items)
+				{
+					Words.Add(word);
+				}
+
+				CurrentPage++;
+
+				TotalItems = pagedList.TotalItems;
+				ShowingItems = Words.Count;
 			}
-
-			CurrentPage++;
-
-			TotalItems = pagedList.TotalItems;
-			ShowingItems = Words.Count;
-			IsLoading = false;
+			catch (Exception ex)
+			{
+				Console.WriteLine($"An error occurred during search: {ex.Message}");
+			}
+			finally
+			{
+				IsLoading = false;
+			}
 		}
 
 		public ICommand RemoveWordCommand { get; }
 
 		public async Task RemoveWordAsync(WordPagedItemModel word)
 		{
-			var deletedWord = await _wordService.RemoveWordAsync(word.Id);
-			if (deletedWord != null)
+			try
 			{
-				await _deletedWordLogger.LogDeletedWordAsync(deletedWord);
-				Words.Remove(word);
-				TotalItems--;
-				ShowingItems = Words.Count;
+				var deletedWord = await _wordService.RemoveWordAsync(word.Id);
+				if (deletedWord != null)
+				{
+					await _deletedWordLogger.LogDeletedWordAsync(deletedWord);
+					Words.Remove(word);
+					TotalItems--;
+					ShowingItems = Words.Count;
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"An error occurred during search: {ex.Message}");
 			}
 		}
 
@@ -132,7 +148,7 @@ namespace BasicDictionaryMauiApp.ViewModels
 
 				var foundWords = await _wordService.SearchWords(name, CurrentPage, PageSize);
 
-				Words.Clear(); 
+				Words.Clear();
 				foreach (var word in foundWords.Items)
 				{
 					Words.Add(word);

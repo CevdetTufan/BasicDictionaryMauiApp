@@ -71,15 +71,22 @@ public class MainPageViewModel : INotifyPropertyChanged
 
 	private async Task DequeeAsync()
 	{
-		if (!queue.Any())
+		try
 		{
-			await FillQueue();
-			NextButtonClickCount = 0;
-			QueueCount = queue.Count;
-		}
+			if (queue.Count == 0)
+			{
+				await FillQueue();
+				NextButtonClickCount = 0;
+				QueueCount = queue.Count;
+			}
 
-		NextButtonClickCount++;
-		DequeueItem = queue.Dequeue();
+			NextButtonClickCount++;
+			DequeueItem = queue.Dequeue();
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"An error occurred during search: {ex.Message}");
+		}
 	}
 
 	private async Task FillQueue()

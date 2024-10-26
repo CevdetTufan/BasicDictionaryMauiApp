@@ -10,7 +10,6 @@ public partial class MainPage : ContentPage
 		InitializeComponent();
 		_viewModel = viewModel;
 		BindingContext = _viewModel;
-
 	}
 
 	private async Task SlideFrame()

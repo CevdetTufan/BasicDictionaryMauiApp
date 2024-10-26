@@ -124,17 +124,27 @@ namespace BasicDictionaryMauiApp.ViewModels
 
 		public ICommand SearchWordsCommand { get; }
 
-		public async Task SearchWords(string name)
+		public async Task SearchWords(string name, int currentPage = 1, int pageSize = 10)
 		{
-			ClearProperties();
-			var foundWords = await _wordService.SearchWords(name);
-			foreach (var word in foundWords.Items)
+			try
 			{
-				Words.Add(word);
-			}
+				ClearProperties();
 
-			TotalItems = foundWords.TotalItems;
-			ShowingItems = Words.Count;
+				var foundWords = await _wordService.SearchWords(name, CurrentPage, PageSize);
+
+				Words.Clear(); 
+				foreach (var word in foundWords.Items)
+				{
+					Words.Add(word);
+				}
+
+				TotalItems = foundWords.TotalItems;
+				ShowingItems = Words.Count;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"An error occurred during search: {ex.Message}");
+			}
 		}
 
 		public void ClearProperties()

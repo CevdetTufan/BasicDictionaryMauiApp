@@ -1,4 +1,5 @@
-﻿using BasicDictionaryMauiApp.Models.Dtos;
+﻿using BasicDictionaryMauiApp.Events;
+using BasicDictionaryMauiApp.Models.Dtos;
 using BasicDictionaryMauiApp.Models.Entities;
 
 namespace BasicDictionaryMauiApp.Services
@@ -9,5 +10,8 @@ namespace BasicDictionaryMauiApp.Services
 		Task<WordModel> AddWordAsync(WordModel word);
 		Task<WordModel> RemoveWordAsync(Guid id);	
 		Task<int> CountWordsAsync();
+
+		event EventHandler<WordChangedEventArgs> WordAdded;
+		event EventHandler<WordChangedEventArgs> WordRemoved;
 	}
 }

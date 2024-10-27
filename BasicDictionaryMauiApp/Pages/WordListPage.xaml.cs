@@ -12,12 +12,16 @@ public partial class WordListPage : ContentPage
 		BindingContext = _viewModel;
 	}
 
+	protected override void OnAppearing()
+	{
+		base.OnAppearing();
+		_viewModel.SetTotalItemsInitialCountCommand.Execute(true);
+	}
 	protected override void OnDisappearing()
 	{
 		base.OnDisappearing();
-		(BindingContext as WordListViewModel)?.ClearProperties();
+		_viewModel.ClearPropertiesCommand.Execute(true);
 	}
-
 
 	private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
 	{

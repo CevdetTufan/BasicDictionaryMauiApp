@@ -15,6 +15,14 @@ namespace BasicDictionaryMauiApp.ViewModels
 		private string _definition = string.Empty;
 		private MessageModel _message;
 
+		public WordAddPageViewModel(IWordService wordService)
+		{
+			AddWordCommand = new Command(AddWordItem);
+			_wordService = wordService;
+		}
+
+		#region Properties
+
 		public string Name
 		{
 			get => _name;
@@ -66,22 +74,11 @@ namespace BasicDictionaryMauiApp.ViewModels
 				}
 			}
 		}
+		#endregion
 
-		public event PropertyChangedEventHandler? PropertyChanged;
-
-		protected virtual void OnPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
+		#region Commands
 
 		public ICommand AddWordCommand { get; }
-
-		public WordAddPageViewModel(IWordService wordService)
-		{
-			AddWordCommand = new Command(AddWordItem);
-			_wordService = wordService;
-		}
-
 		private async void AddWordItem()
 		{
 			try
@@ -117,5 +114,17 @@ namespace BasicDictionaryMauiApp.ViewModels
 				};
 			}
 		}
+		#endregion
+
+		#region Event Handlers
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+		#endregion
 	}
 }

@@ -1,4 +1,5 @@
-﻿using BasicDictionaryMauiApp.Models.Dtos;
+﻿using BasicDictionaryMauiApp.Events;
+using BasicDictionaryMauiApp.Models.Dtos;
 using BasicDictionaryMauiApp.Models.Entities;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -11,6 +12,9 @@ namespace BasicDictionaryMauiApp.Services
 		private List<WordModel> _cachedWords;
 		private DateTime _lastCacheUpdateTime;
 		private readonly TimeSpan _cacheDuration = TimeSpan.FromMinutes(5);
+
+		public event EventHandler<WordChangedEventArgs> WordAdded;
+		public event EventHandler<WordChangedEventArgs> WordRemoved;
 
 		public WordServiceJson()
 		{
@@ -48,6 +52,8 @@ namespace BasicDictionaryMauiApp.Services
 			_cachedWords = words;
 			_lastCacheUpdateTime = DateTime.UtcNow;
 
+			OnWordAdded(word);
+
 			return word;
 		}
 
@@ -78,6 +84,8 @@ namespace BasicDictionaryMauiApp.Services
 
 				_cachedWords = updatedWords;
 				_lastCacheUpdateTime = DateTime.UtcNow;
+
+				OnWordRemoved(word);
 			}
 
 			return word;
@@ -85,7 +93,7 @@ namespace BasicDictionaryMauiApp.Services
 
 		public async Task<PagedResult<WordPagedItemModel>> SearchWords(string name, int currentPage, int pageSize)
 		{
-			if(string.IsNullOrWhiteSpace(name))
+			if (string.IsNullOrWhiteSpace(name))
 			{
 				return new PagedResult<WordPagedItemModel>
 				{
@@ -93,10 +101,24 @@ namespace BasicDictionaryMauiApp.Services
 					TotalItems = 0
 				};
 			}
-		
+
 			return await FetchPagedWords(name, currentPage, pageSize);
 		}
 
+		#region Event Handlers
+		protected virtual void OnWordAdded(WordModel word)
+		{
+			WordAdded?.Invoke(this, new WordChangedEventArgs(word));
+		}
+
+		protected virtual void OnWordRemoved(WordModel word)
+		{
+			WordRemoved?.Invoke(this, new WordChangedEventArgs(word));
+		}
+
+		#endregion
+
+		#region Helper Methods
 		private async Task<List<WordModel>> LoadWordsFromJsonAsync()
 		{
 			if (_cachedWords == null || DateTime.UtcNow - _lastCacheUpdateTime > _cacheDuration)
@@ -131,6 +153,8 @@ namespace BasicDictionaryMauiApp.Services
 				TotalItems = words.Count
 			};
 		}
+
+		#endregion
 	}
 }
 

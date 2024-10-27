@@ -19,7 +19,11 @@ public class MainPageViewModel : INotifyPropertyChanged
 		_wordService = wordService;
 		DequeeCommand = new Command(async () => await DequeeAsync());
 		DequeeCommand.Execute(true);
+		_wordService.WordAdded += OnWordServiceWordAdded;
+		_wordService.WordRemoved += OnWordServiceWordRemoved;
 	}
+
+	#region Properties
 
 	public MainPageQueueItemModel DequeueItem
 	{
@@ -33,26 +37,24 @@ public class MainPageViewModel : INotifyPropertyChanged
 			}
 		}
 	}
-
 	public int NextButtonClickCount
 	{
 		get { return _nextButtonClickCount; }
 		set
 		{
-			if (value != _nextButtonClickCount)
+			if (value != _nextButtonClickCount && value >= 0 && value <= QueueCount)
 			{
 				_nextButtonClickCount = value;
 				OnPropertyChanged(nameof(NextButtonClickCount));
 			}
 		}
 	}
-
 	public int QueueCount
 	{
 		get { return _queueCount; }
 		set
 		{
-			if (value != _queueCount)
+			if (value != _queueCount && value >= 0)
 			{
 				_queueCount = value;
 				OnPropertyChanged(nameof(QueueCount));
@@ -60,36 +62,75 @@ public class MainPageViewModel : INotifyPropertyChanged
 		}
 	}
 
-	public event PropertyChangedEventHandler PropertyChanged;
+	#endregion
 
-	public void OnPropertyChanged(string propertyName)
-	{
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-	}
+	#region Commands
 
 	public readonly ICommand DequeeCommand;
-
 	private async Task DequeeAsync()
 	{
 		try
 		{
 			if (queue.Count == 0)
 			{
-				await FillQueue();
+				await EnqueueItems();
 				NextButtonClickCount = 0;
 				QueueCount = queue.Count;
 			}
 
 			NextButtonClickCount++;
-			DequeueItem = queue.Dequeue();
+			Dequeue();
 		}
 		catch (Exception ex)
 		{
 			Console.WriteLine($"An error occurred during search: {ex.Message}");
 		}
 	}
+	#endregion
 
-	private async Task FillQueue()
+	#region Event Handlers
+
+	public event PropertyChangedEventHandler PropertyChanged;
+	public void OnPropertyChanged(string propertyName)
+	{
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+	}
+
+	private void OnWordServiceWordAdded(object sender, Events.WordChangedEventArgs e)
+	{
+		queue.Enqueue(new MainPageQueueItemModel
+		{
+			Definition = e.Word.Definition,
+			Meaning = e.Word.Meaning,
+			Name = e.Word.Name
+		});
+
+		QueueCount++;
+	}
+	private void OnWordServiceWordRemoved(object sender, Events.WordChangedEventArgs e)
+	{
+		var itemsToRemove = queue.Where(q => q.Name == e.Word.Name).ToList();
+
+		foreach (var item in itemsToRemove)
+		{
+			if (queue.Peek().Name == item.Name)
+			{
+				queue.Dequeue();
+			}
+		}
+
+		QueueCount--;
+
+		if (NextButtonClickCount > QueueCount)
+		{
+			NextButtonClickCount = QueueCount;
+		}
+	}
+
+	#endregion
+
+	#region Helper Methods
+	private async Task EnqueueItems()
 	{
 		var words = await _wordService.GetWordsAsync();
 		foreach (var word in words)
@@ -102,4 +143,17 @@ public class MainPageViewModel : INotifyPropertyChanged
 			});
 		}
 	}
+
+	private void Dequeue()
+	{
+		if (queue.Count > 0)
+		{
+			DequeueItem = queue.Dequeue();
+		}
+		else
+		{
+			DequeueItem = null;
+		}
+	}
+	#endregion
 }

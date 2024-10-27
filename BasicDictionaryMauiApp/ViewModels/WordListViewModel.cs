@@ -24,8 +24,11 @@ namespace BasicDictionaryMauiApp.ViewModels
 			LoadMoreCommand = new Command(async () => await LoadMoreWordsAsync());
 			RemoveWordCommand = new Command<WordPagedItemModel>(async (word) => await RemoveWordAsync(word));
 			SearchWordsCommand = new Command<string>(async (name) => await SearchWords(name));
-			Task.Run(SetTotalItemsInitialCount);
+			SetTotalItemsInitialCountCommand = new Command(async () => await SetTotalItemsInitialCountAsync());
+			ClearPropertiesCommand = new Command(ClearProperties);
 		}
+
+		#region Properties
 
 		public int CurrentPage
 		{
@@ -79,14 +82,10 @@ namespace BasicDictionaryMauiApp.ViewModels
 			}
 		}
 
-		public ObservableCollection<WordPagedItemModel> Words { get; set; } = [];
+		public ObservableCollection<WordPagedItemModel> Words { get; set; } = []; 
+		#endregion
 
-		public event PropertyChangedEventHandler PropertyChanged;
-		protected virtual void OnPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-
+		#region Commands
 		public ICommand LoadMoreCommand { get; }
 		public async Task LoadMoreWordsAsync()
 		{
@@ -163,16 +162,32 @@ namespace BasicDictionaryMauiApp.ViewModels
 			}
 		}
 
-		public void ClearProperties()
+		public ICommand SetTotalItemsInitialCountCommand {  get; }
+
+		private async Task SetTotalItemsInitialCountAsync()
+		{
+			TotalItems = await _wordService.CountWordsAsync();
+		}
+
+		public ICommand ClearPropertiesCommand {  get; }
+		private void ClearProperties()
 		{
 			Words.Clear();
 			CurrentPage = 1;
 			TotalItems = 0;
 			ShowingItems = 0;
 		}
-		private async Task SetTotalItemsInitialCount()
+
+		#endregion
+
+		#region Event Handlers
+
+		public event PropertyChangedEventHandler PropertyChanged;
+		protected virtual void OnPropertyChanged(string propertyName)
 		{
-			TotalItems = await _wordService.CountWordsAsync();
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
+
+		#endregion
 	}
 }

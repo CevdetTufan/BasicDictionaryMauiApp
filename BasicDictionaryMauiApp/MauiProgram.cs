@@ -1,4 +1,6 @@
-﻿using BasicDictionaryMauiApp.Pages;
+﻿using BasicDictionary.Dal.MongoDb;
+using BasicDictionary.Dal.Repositories;
+using BasicDictionaryMauiApp.Pages;
 using BasicDictionaryMauiApp.Services;
 using BasicDictionaryMauiApp.ViewModels;
 using Microsoft.Extensions.Logging;
@@ -21,6 +23,14 @@ namespace BasicDictionaryMauiApp
 #if DEBUG
 			builder.Logging.AddDebug();
 #endif
+
+			builder.Services.AddSingleton(
+				new MongoDbSettings(
+					connectionString: "your-connection-string", 
+					databaseName: "your-database-name"));
+
+			builder.Services.AddSingleton(typeof(IMongoDbRepository<>), typeof(MongoDbRepository<>));
+
 			builder.Services.AddSingleton<MainPageViewModel>();
 			builder.Services.AddSingleton<MainPage>();
 

@@ -1,8 +1,16 @@
-﻿namespace BasicDictionaryMauiApp.Models.Entities;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System.ComponentModel;
 
+namespace BasicDictionaryMauiApp.Models.Entities;
+
+[DisplayName("Words")]
 public class WordModel
 {
-    public Guid Id { get; set; }
+	[BsonGuidRepresentation(GuidRepresentation.Standard)]
+    [BsonId]
+	public Guid Id { get; set; }
+
     public string Name { get; set; }
     public string Meaning { get; set; }
     public string Definition { get; set; }

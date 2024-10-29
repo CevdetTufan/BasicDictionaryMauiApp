@@ -71,7 +71,7 @@ public class WordServiceMongo : IWordService
 
 	private async Task<PagedResult<WordPagedItemModel>> FetchPagedWords(string name, int currentPage, int pageSize)
 	{
-		Expression<Func<WordModel, bool>> filter = w => w.Name.Contains(name, StringComparison.OrdinalIgnoreCase);
+		Expression<Func<WordModel, bool>> filter = w => w.Name.ToLower().Contains(name.ToLower());
 
 		var totalWords = await _repository.CountDocumentsAsync(filter);
 

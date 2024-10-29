@@ -1,18 +1,19 @@
 ﻿using BasicDictionary.Dal.MongoDb;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using System.ComponentModel;
 using System.Linq.Expressions;
 
 namespace BasicDictionary.Dal.Repositories;
 
 public class MongoDbRepository<T> : IMongoDbRepository<T> where T : class
 {
-
 	private readonly IMongoCollection<T> _collection;
 
-	public MongoDbRepository(MongoDbContext context, string collectionName)
+	public MongoDbRepository(MongoDbContext context)
 	{
-		_collection = context.GetCollection<T>(collectionName);
+		var displayName = GetDisplayName() ?? typeof(T).Name;
+		_collection = context.GetCollection<T>(displayName);
 	}
 
 	public async Task<T> GetByIdAsync(Guid id)
@@ -62,5 +63,13 @@ public class MongoDbRepository<T> : IMongoDbRepository<T> where T : class
 								 .Skip(skip)
 								 .Take(take)
 								 .ToListAsync();
+	}
+
+	private static string GetDisplayName()
+	{
+		var attr = typeof(T).GetCustomAttributes(typeof(DisplayNameAttribute), false)
+			.FirstOrDefault() as DisplayNameAttribute;
+
+		return attr?.DisplayName;
 	}
 }

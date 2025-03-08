@@ -1,0 +1,6 @@
+@WordLookupService.Api_HostAddress = http://localhost:5206
+
+GET {{WordLookupService.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -19,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer", "IdentityS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer.Api", "IdentityServer\IdentityServer.Api\IdentityServer.Api.csproj", "{B425AB3C-82D2-4B46-83C1-9749E8403CDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordLookupService.Api", "Services\WordLookupService.Api\WordLookupService.Api.csproj", "{3515738F-DFA6-4EA2-B220-3EEBD7DA36A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordDictionary.Api", "Services\WordDictionary.Api\WordDictionary.Api.csproj", "{1E64515D-D183-4292-8B5D-251B12335BC0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{B425AB3C-82D2-4B46-83C1-9749E8403CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B425AB3C-82D2-4B46-83C1-9749E8403CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B425AB3C-82D2-4B46-83C1-9749E8403CDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3515738F-DFA6-4EA2-B220-3EEBD7DA36A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3515738F-DFA6-4EA2-B220-3EEBD7DA36A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3515738F-DFA6-4EA2-B220-3EEBD7DA36A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3515738F-DFA6-4EA2-B220-3EEBD7DA36A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E64515D-D183-4292-8B5D-251B12335BC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E64515D-D183-4292-8B5D-251B12335BC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E64515D-D183-4292-8B5D-251B12335BC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E64515D-D183-4292-8B5D-251B12335BC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,6 +59,8 @@ Global
 		{F642FF9C-8166-4621-9084-F90C74C378F8} = {9A3CB79C-0DC3-4990-86DB-5E50505803C0}
 		{EA30A510-8AE6-4AC5-93C8-1D415ABFE27D} = {F7F74BF8-9CD9-4603-901A-7C93E74589A7}
 		{B425AB3C-82D2-4B46-83C1-9749E8403CDF} = {5F35DB02-F854-45B6-BA62-C8125E076F4E}
+		{3515738F-DFA6-4EA2-B220-3EEBD7DA36A4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{1E64515D-D183-4292-8B5D-251B12335BC0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8AFD13DF-C3B6-489D-8049-A04ABC5C3EFB}

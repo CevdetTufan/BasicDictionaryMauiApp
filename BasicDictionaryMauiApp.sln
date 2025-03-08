@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordLookupService.Api", "Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordDictionary.Api", "Services\WordDictionary.Api\WordDictionary.Api.csproj", "{1E64515D-D183-4292-8B5D-251B12335BC0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueueProcessorService", "Services\QueueProcessorService\QueueProcessorService.csproj", "{CF958B15-3B7E-4A13-BF68-2D33549DFC97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{1E64515D-D183-4292-8B5D-251B12335BC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E64515D-D183-4292-8B5D-251B12335BC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E64515D-D183-4292-8B5D-251B12335BC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF958B15-3B7E-4A13-BF68-2D33549DFC97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF958B15-3B7E-4A13-BF68-2D33549DFC97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF958B15-3B7E-4A13-BF68-2D33549DFC97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF958B15-3B7E-4A13-BF68-2D33549DFC97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +67,7 @@ Global
 		{B425AB3C-82D2-4B46-83C1-9749E8403CDF} = {5F35DB02-F854-45B6-BA62-C8125E076F4E}
 		{3515738F-DFA6-4EA2-B220-3EEBD7DA36A4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{1E64515D-D183-4292-8B5D-251B12335BC0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{CF958B15-3B7E-4A13-BF68-2D33549DFC97} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8AFD13DF-C3B6-489D-8049-A04ABC5C3EFB}

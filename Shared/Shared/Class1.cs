@@ -1,4 +1,4 @@
-﻿namespace SharedCore;
+﻿namespace Shared;
 
 public class Class1
 {

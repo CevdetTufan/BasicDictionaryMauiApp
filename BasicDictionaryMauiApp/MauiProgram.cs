@@ -7,6 +7,7 @@ using BasicDictionaryMauiApp.Services;
 using BasicDictionaryMauiApp.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace BasicDictionaryMauiApp
@@ -32,10 +33,17 @@ namespace BasicDictionaryMauiApp
 					.AddUserSecrets<MongoDbSecretModel>()
 					.Build();
 
+
+			string connectionString = "mongodb://cevdettufan:40sfdilA496874bnf4gfrpCrt@cluster0-shard-00-00.otnz5.mongodb.net:27017,cluster0-shard-00-01.otnz5.mongodb.net:27017,cluster0-shard-00-02.otnz5.mongodb.net:27017/?ssl=true&replicaSet=atlas-gcinud-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0";
+
+
+
+			string databaseName = "glossary";
+
 			builder.Services.AddSingleton(
 				new MongoDbSettings(
-					connectionString: config["MongoDb:ConnectionString"],
-					databaseName: config["MongoDb:DatabaseName"]));
+					connectionString: connectionString,
+					databaseName: databaseName));
 
 			builder.Services.AddSingleton<MongoDbContext>();
 			builder.Services.AddSingleton(typeof(IMongoDbRepository<>), typeof(MongoDbRepository<>));

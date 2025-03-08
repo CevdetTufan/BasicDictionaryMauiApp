@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicDictionary.Dal", "Basi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{E247A47E-7F35-43A3-BFED-01453DD29FBB}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{F7F74BF8-9CD9-4603-901A-7C93E74589A7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{9A3CB79C-0DC3-4990-86DB-5E50505803C0}"
@@ -26,8 +24,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueueProcessorService", "Services\QueueProcessorService\QueueProcessorService.csproj", "{CF958B15-3B7E-4A13-BF68-2D33549DFC97}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure\Infrastructure.csproj", "{5CF9FD7A-C589-4A14-AF9B-C3D540CCEE5C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared\Shared.csproj", "{754D49E2-6F24-4205-9C55-A3B3E35C6C56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,10 +61,6 @@ Global
 		{5CF9FD7A-C589-4A14-AF9B-C3D540CCEE5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CF9FD7A-C589-4A14-AF9B-C3D540CCEE5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CF9FD7A-C589-4A14-AF9B-C3D540CCEE5C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{754D49E2-6F24-4205-9C55-A3B3E35C6C56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{754D49E2-6F24-4205-9C55-A3B3E35C6C56}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{754D49E2-6F24-4205-9C55-A3B3E35C6C56}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{754D49E2-6F24-4205-9C55-A3B3E35C6C56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,7 +73,6 @@ Global
 		{1E64515D-D183-4292-8B5D-251B12335BC0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{CF958B15-3B7E-4A13-BF68-2D33549DFC97} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{5CF9FD7A-C589-4A14-AF9B-C3D540CCEE5C} = {F7F74BF8-9CD9-4603-901A-7C93E74589A7}
-		{754D49E2-6F24-4205-9C55-A3B3E35C6C56} = {E247A47E-7F35-43A3-BFED-01453DD29FBB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8AFD13DF-C3B6-489D-8049-A04ABC5C3EFB}
